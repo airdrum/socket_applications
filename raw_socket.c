@@ -84,15 +84,15 @@ int main(void)
     inet_aton(srchost, &src_addr.sin_addr);
 
     src_addr_b.sin_family = AF_INET;
-    src_addr_b.sin_port = htons(5000);
+    src_addr_b.sin_port = htons(6000);
     inet_aton(srchost_b, &src_addr_b.sin_addr);
 
     dst_addr.sin_family = AF_INET;
-    dst_addr.sin_port = htons(6000);
+    dst_addr.sin_port = htons(5001);
     inet_aton(localhost, &dst_addr.sin_addr);
 
     dst_addr_b.sin_family = AF_INET;
-    dst_addr_b.sin_port = htons(6000);
+    dst_addr_b.sin_port = htons(6001);
     inet_aton(localhost_b, &dst_addr_b.sin_addr);
 
     strcpy((char *)data, sending_data);
@@ -138,7 +138,7 @@ int main(void)
             send_udp_packet(raw_sock_b, src_addr_b, dst_addr_b, data_b, data_size_b);
         }
         i++;
-        sleep(1);
+        usleep(1000);
     }
     
     return 0;

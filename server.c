@@ -15,7 +15,7 @@ int main() {
     // Allocate string buffer to hold incoming packet data
     unsigned char *buffer = (unsigned char *)malloc(65536);
     // Open the raw socket
-    int sock = socket (PF_INET, SOCK_RAW, IPPROTO_TCP);
+    int sock = socket (PF_INET, SOCK_RAW, IPPROTO_UDP);
     if(sock == -1)
     {
         //socket creation failed, may be because of non-root privileges
