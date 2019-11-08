@@ -58,14 +58,15 @@ int main(void)
 
     uint8_t data[MAX_DATA_SIZE];
      uint8_t data_b[MAX_DATA_SIZE];
-    char *sending_data = "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS";
+    char *sending_data = "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS";
     char *sending_data_b = "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
 
-    char *localhost = "127.0.0.1";
-    char *localhost_b = "127.0.0.1";
+    char *dsthost = "192.168.2.20";
+    char *srchost = "192.168.2.10";
 
-    char *srchost = "127.0.0.1";
-    char *srchost_b = "127.0.0.1";
+
+    char *dsthost_b = "192.168.1.20";
+    char *srchost_b = "192.168.1.10";
 
     unsigned int packet_size;
     unsigned int packet_size_b;
@@ -89,11 +90,11 @@ int main(void)
 
     dst_addr.sin_family = AF_INET;
     dst_addr.sin_port = htons(5001);
-    inet_aton(localhost, &dst_addr.sin_addr);
+    inet_aton(dsthost, &dst_addr.sin_addr);
 
     dst_addr_b.sin_family = AF_INET;
     dst_addr_b.sin_port = htons(6001);
-    inet_aton(localhost_b, &dst_addr_b.sin_addr);
+    inet_aton(dsthost_b, &dst_addr_b.sin_addr);
 
     strcpy((char *)data, sending_data);
     data_size = strlen(sending_data);
@@ -132,13 +133,15 @@ int main(void)
     }
     int i = 1;
     while(1){
-        if(i%2){
+        printf("%d\n",i%4);
+        if(i%20){
             send_udp_packet(raw_sock, src_addr, dst_addr, data, data_size);
         } else {
+            printf("**************************\n");
             send_udp_packet(raw_sock_b, src_addr_b, dst_addr_b, data_b, data_size_b);
         }
         i++;
-        usleep(1000);
+        usleep(100);
     }
     
     return 0;
